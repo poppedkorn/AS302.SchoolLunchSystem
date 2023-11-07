@@ -73,14 +73,22 @@ int main() {
 
         cin >> addItem; 
 
-        if (addItem = 'Y') {
+        if (addItem = 'Y' | 'y') {
             continue;
-        } else if (addItem = 'N') {
-            break;
         } else {
-            cout << "this is not a valid answer";
+            break;
         };
+        //else {
+        //     cout << "this is not a valid answer";
+        // };
     };
+
+    cout << "Thanks for your order!" 
+        << endl 
+        <<"your total to pay is $" 
+        << totalPrice 
+        << endl
+        << "would you like to apply a discount? Y/N : ";
 
     return 0;
 }
