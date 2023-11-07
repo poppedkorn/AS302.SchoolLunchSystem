@@ -61,6 +61,9 @@ int main() {
             case 'F':
                 totalPrice = totalPrice + ramen.price;
                 break;
+            default:
+                cout << "this is not a valid answer! ";
+
         };
 
         cout << "your total to pay is $" 
@@ -73,7 +76,7 @@ int main() {
         if (addItem = 'Y') {
             continue;
         } else if (addItem = 'N') {
-            return 0;
+            break;
         } else {
             cout << "this is not a valid answer";
         };
