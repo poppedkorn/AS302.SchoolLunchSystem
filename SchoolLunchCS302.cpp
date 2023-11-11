@@ -20,7 +20,7 @@ class menuItem {
                     break;
                 case fries:
                     food = "Fries";
-                    price = 2.50;
+                    price = 3.50;
                     break;
                 case burger:
                     food = "Chicken Burger";
