@@ -1,89 +1,170 @@
 #include <iostream>
 #include <math.h>
 #include <string.h>
+#include <array>
 
 using namespace std;
 
-struct menu {
+enum menuItemID {pizza, fries, burger, pasta, salad, ramen};
+
+class menuItem {
     public:
         string food;
         double price;
+
+        menuItem(menuItemID id) {
+            switch(id) {   
+                case pizza:
+                    food = "Pepperoni Pizza";
+                    price = 6.99;
+                    break;
+                case fries:
+                    food = "Fries";
+                    price = 2.50;
+                    break;
+                case burger:
+                    food = "Chicken Burger";
+                    price = 7.99;
+                    break;
+                case pasta:
+                    food = "Alfredo Pasta";
+                    price = 6.50;
+                    break;
+                case salad:
+                    food = "Caesar Salad";
+                    price = 5.50;
+                    break;
+                case ramen:
+                    food = "Miso Ramen";
+                    price = 4.99;
+                    break;
+            };
+        };
 };
 
+class menu {
+    public: 
+        menuItem* pizza;
+        menuItem* fries;
+        menuItem* burger;
+        menuItem* pasta;
+        menuItem* salad;
+        menuItem* ramen;
+
+        menu(menuItem pi, menuItem f, menuItem b, menuItem pa, menuItem s, menuItem r) {
+            pizza = &pi;
+            fries = &f;
+            burger = &b;
+            pasta = &pa;
+            salad = &s;
+            ramen = &r;
+        };
+};
+
+bool login() {
+    bool loggedIn;
+        
+    // Map example
+
+    // #include <iostream>
+    // #include <map>
+
+    // using namespace std;
+
+    // int main() {
+    // //initialising the map
+    // map <string, string> mmap;
+
+    // //inserting some values
+    // mmap.insert({"jontysUsername", "jontysPassword"});
+    // mmap.insert({"joshsUserName", "joshsPassword"});
+    // mmap.insert({"michaelsUserName", "michaelsPassword"});
+
+    // if (mmap.find("jontysUsername") == whateverthepersonputforthepassword) {
+    //     successful login
+    // } else {
+    //     wrong password
+    // }
+
+    // //displaying the contents
+    // for (auto itr = mmap.begin(); itr != mmap.end(); ++itr) {
+    //     cout << itr->first << ": " << itr->second << endl;
+    // }
+
+    // return 0;
+    // }
+
+    return loggedIn;
+}
+
 int main() {
-    menu pizza, fries, burger, pasta, salad, ramen;
-        pizza.food = "Pepperoni Pizza";
-        pizza.price = 6.99;
-        fries.food = "Fries";
-        fries.price = 2.50;
-        burger.food = "Chicken Burger";
-        burger.price = 7.99;
-        pasta.food = "Alfredo Pasta";
-        pasta.price = 6.50;
-        salad.food = "Ceasar Salad";
-        salad.price = 5.50;
-        ramen.food = "Miso Ramen";
-        ramen.price = 4.99;
+    menu myMenu = menu(menuItem(pizza), menuItem(fries), menuItem(burger), menuItem(pasta), menuItem(salad), menuItem(ramen));
     char menuInput;
     double totalPrice = 0;
-    bool isValid = false;
+    bool invalid = true;
+    bool isAddingItems = true;
     char addItem;
 
-
-    while(true) {
-        cout << "Enter the Item letter to order\n" 
-        << "A.) " << pizza.food << endl
-        << "B.) " << fries.food << endl
-        << "C.) " << burger.food << endl
-        << "D.) " << pasta.food << endl
-        << "E.) " << salad.food << endl
-        << "F.) " << ramen.food << endl
+    while(isAddingItems) {
+        std::cout << "Enter the Item letter to order\n" 
+        << "A.) " << myMenu.pizza->food << endl
+        << "B.) " << myMenu.fries->food << endl
+        << "C.) " << myMenu.burger->food << endl
+        << "D.) " << myMenu.pasta->food << endl
+        << "E.) " << myMenu.salad->food << endl
+        << "F.) " << myMenu.ramen->food << endl
         << "your choice : ";
 
-        cin >> menuInput;
+        std::cin >> menuInput;
 
         switch(toupper(menuInput)) {
             case 'A':
-                totalPrice = totalPrice + pizza.price;
+                totalPrice = totalPrice + myMenu.pizza->price;
                 break;
             case 'B':
-                totalPrice = totalPrice + fries.price;
+                totalPrice = totalPrice + myMenu.fries->price;
                 break;
             case 'C':
-                totalPrice = totalPrice + burger.price;
+                totalPrice = totalPrice + myMenu.burger->price;
                 break;
             case 'D':
-                totalPrice = totalPrice + pasta.price;
+                totalPrice = totalPrice + myMenu.pasta->price;
                 break;
             case 'E':
-                totalPrice = totalPrice + salad.price;
+                totalPrice = totalPrice + myMenu.salad->price;
                 break;
             case 'F':
-                totalPrice = totalPrice + ramen.price;
+                totalPrice = totalPrice + myMenu.ramen->price;
                 break;
             default:
-                cout << "this is not a valid answer! ";
-
+                std::cout << "This is not a valid answer! " << endl;
         };
 
-        cout << "your total to pay is $" 
-            << totalPrice 
-            << endl
-            << "would you like to add another item? Y/N :";
+        invalid = true;
+        while(invalid) {
+            std::cout << "Your total to pay is $" 
+                << totalPrice 
+                << endl
+                << "Would you like to add another item? Y/N :";
 
-        cin >> addItem; 
+            std::cin >> addItem; 
 
-        if (addItem = 'Y' | 'y') {
-            continue;
-        } else {
-            break;
+            if (addItem == ('Y' | 'y')) {
+                invalid = false;
+                goto end;
+            } else if (addItem == ('N' | 'n')) {
+                invalid = false;
+                isAddingItems = false;
+            } else {
+                cout << "This is not a valid answer" << endl;
+            };
+            
+            end: NULL;
         };
-        //else {
-        //     cout << "this is not a valid answer";
-        // };
+
     };
 
-    cout << "Thanks for your order!" 
+    std::cout << "Thanks for your order!" 
         << endl 
         <<"your total to pay is $" 
         << totalPrice 
