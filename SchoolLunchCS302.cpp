@@ -78,6 +78,15 @@ int main() {
         } else {
             break;
         };
+
+        // another option to end the loop? I didn't want to push a change just yet.
+     // while (true) {
+       // cout << "Would you like to add another item? Y/N :";
+      //  cin >> addItem;
+       // if (addItem != 'Y' && addItem != 'y') {
+       //   break;
+     //   }
+     // }
         //else {
         //     cout << "this is not a valid answer";
         // };
