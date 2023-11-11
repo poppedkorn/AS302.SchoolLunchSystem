@@ -73,11 +73,12 @@ int main() {
 
         cin >> addItem; 
 
-        if (addItem = 'Y' | 'y') {
+        if (addItem == 'Y' | 'y') {
             continue;
         } else {
             break;
         };
+        // changed to equality operator /ash
         //else {
         //     cout << "this is not a valid answer";
         // };
