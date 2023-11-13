@@ -97,6 +97,9 @@ bool login() {
     return loggedIn;
 }
 
+  const double STAFF = 0.10;
+  const double STUDENT = 0.05;
+
 int main() {
     menu myMenu = menu(menuItem(pizza), menuItem(fries), menuItem(burger), menuItem(pasta), menuItem(salad), menuItem(ramen));
     char menuInput;
@@ -172,23 +175,38 @@ int main() {
        
 
         bool applyDiscount = false;
-        double discountAmount = 0.0;
+        string discountCode;
 
-        cout << "Would you like to apply a discount? Y/N : ";
+        cout << "Would you like to apply a discount code? Y/N : ";
         char applyDiscountInput;
         cin >> applyDiscountInput;
 
-        if (toupper(applyDiscountInput) == 'Y' ){
+        if (toupper(applyDiscountInput) == 'Y'){
             applyDiscount = true;
 
-            cout << "Enter discount amount: ";
-            cin >> discountAmount;
-        }
+            cout << "Enter discount code: ";
+             cin >> discountCode;      
+             }
 
-        if (applyDiscount){
-            totalPrice = totalPrice - discountAmount;
-            cout << "Discount applied! Thank you! Your total is now $" << totalPrice << endl;
-        }
+             // Check if the discount code is vaild
+             if (applyDiscount && (discountCode == "STAFF" || discountCode == "STUDENT")) {
+                //Apply the appropriate discount
+                if (discountCode == "STAFF") {
+                    totalPrice *= (1.0 - STAFF);
+                } else if (discountCode == "STUDENT"); {
+                    totalPrice *= (1.0 - STUDENT);
+                }
+               
+                // display the new total 
+                cout << "Discount applied, thanks! Your new total is $" << totalPrice << ", and you saved $ !" << endl;
+             } else if (applyDiscount) { 
+                // the discount code is invalid
+                cout << "Invalid discount code" << endl;
+            
+             } else {
+                // no discount code was applied
+                cout << "No discount code applied, your total is $ " << totalPrice << endl;
+             }
         
 
     return 0;
