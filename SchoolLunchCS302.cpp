@@ -168,8 +168,28 @@ int main() {
         << endl 
         <<"your total to pay is $" 
         << totalPrice 
-        << endl
-        << "would you like to apply a discount? Y/N : ";
+        << endl;
+       
+
+        bool applyDiscount = false;
+        double discountAmount = 0.0;
+
+        cout << "Would you like to apply a discount? Y/N : ";
+        char applyDiscountInput;
+        cin >> applyDiscountInput;
+
+        if (toupper(applyDiscountInput) == 'Y' ){
+            applyDiscount = true;
+
+            cout << "Enter discount amount: ";
+            cin >> discountAmount;
+        }
+
+        if (applyDiscount){
+            totalPrice = totalPrice - discountAmount;
+            cout << "Discount applied! Thank you! Your total is now $" << totalPrice << endl;
+        }
+        
 
     return 0;
 }
