@@ -2,6 +2,9 @@
 #include <math.h>
 #include <string.h>
 #include <array>
+#include <fstream>
+#include <cstring>
+#include <string>
 
 using namespace std;
 
@@ -61,44 +64,53 @@ class menu {
         };
 };
 
-bool login() {
-    bool loggedIn;
-        
-    // Map example
+void login() {
 
-    // #include <iostream>
-    // #include <map>
+    // Create a text string, which is used to output the text file
+    string line;
+    string inputUsername = "username";
+    string inputPassword = "password";
+    bool validUsername = false;
+    waitForUsername:
+    // Read from the text file
+    ifstream dataStream("users.txt");
 
-    // using namespace std;
+    cout << "Username: ";
+    cin >> inputUsername;
+    // Use a while loop together with the getline() function to read the file line by line
+    while (getline(dataStream, line)) {
+        char* lineChunk = strtok(line.data(), " ");
+        validUsername = false;
+        while (lineChunk != NULL) {
 
-    // int main() {
-    // //initialising the map
-    // map <string, string> mmap;
-
-    // //inserting some values
-    // mmap.insert({"jontysUsername", "jontysPassword"});
-    // mmap.insert({"joshsUserName", "joshsPassword"});
-    // mmap.insert({"michaelsUserName", "michaelsPassword"});
-
-    // if (mmap.find("jontysUsername") == whateverthepersonputforthepassword) {
-    //     successful login
-    // } else {
-    //     wrong password
-    // }
-
-    // //displaying the contents
-    // for (auto itr = mmap.begin(); itr != mmap.end(); ++itr) {
-    //     cout << itr->first << ": " << itr->second << endl;
-    // }
-
-    // return 0;
-    // }
-
-    return loggedIn;
-}
-
-  const double STAFF = 0.10;
-  const double STUDENT = 0.05;
+            if(validUsername) {
+                waitForPassword:
+                cout << "Password: ";
+                cin >> inputPassword;
+                if(lineChunk == inputPassword) {
+                    cout << "Sign in successful " << endl;
+                    dataStream.close();
+                    return;
+                } else {
+                    cout << "Wrong password" << endl;
+                    goto waitForPassword;
+                };
+            };
+            
+            string s(lineChunk);
+            lineChunk = strtok(NULL, " ");
+            if(s == inputUsername) {
+                validUsername = true;
+            };
+        };
+    };
+    cout << "Username does not exist" << endl;
+    goto waitForUsername;
+ 
+    dataStream.close();
+    cout << "wtf bro?";
+    return;
+};
 
 int main() {
     menu myMenu = menu(menuItem(pizza), menuItem(fries), menuItem(burger), menuItem(pasta), menuItem(salad), menuItem(ramen));
@@ -108,106 +120,109 @@ int main() {
     bool isAddingItems = true;
     char addItem;
 
-    while(isAddingItems) {
-        std::cout << "Enter the Item letter to order\n" 
-        << "A.) " << myMenu.pizza->food << endl
-        << "B.) " << myMenu.fries->food << endl
-        << "C.) " << myMenu.burger->food << endl
-        << "D.) " << myMenu.pasta->food << endl
-        << "E.) " << myMenu.salad->food << endl
-        << "F.) " << myMenu.ramen->food << endl
-        << "your choice : ";
+    login();
 
-        std::cin >> menuInput;
+        while(isAddingItems) {
+            std::cout << "Enter the Item letter to order\n" 
+            << "A.) " << myMenu.pizza->food << endl
+            << "B.) " << myMenu.fries->food << endl
+            << "C.) " << myMenu.burger->food << endl
+            << "D.) " << myMenu.pasta->food << endl
+            << "E.) " << myMenu.salad->food << endl
+            << "F.) " << myMenu.ramen->food << endl
+            << "your choice : ";
 
-        switch(toupper(menuInput)) {
-            case 'A':
-                totalPrice = totalPrice + myMenu.pizza->price;
-                break;
-            case 'B':
-                totalPrice = totalPrice + myMenu.fries->price;
-                break;
-            case 'C':
-                totalPrice = totalPrice + myMenu.burger->price;
-                break;
-            case 'D':
-                totalPrice = totalPrice + myMenu.pasta->price;
-                break;
-            case 'E':
-                totalPrice = totalPrice + myMenu.salad->price;
-                break;
-            case 'F':
-                totalPrice = totalPrice + myMenu.ramen->price;
-                break;
-            default:
-                std::cout << "This is not a valid answer! " << endl;
-        };
+            std::cin >> menuInput;
 
-        invalid = true;
-        while(invalid) {
-            std::cout << "Your total to pay is $" 
-                << totalPrice 
-                << endl
-                << "Would you like to add another item? Y/N :";
-
-            std::cin >> addItem; 
-
-            if (addItem == ('Y' | 'y')) {
-                invalid = false;
-                goto end;
-            } else if (addItem == ('N' | 'n')) {
-                invalid = false;
-                isAddingItems = false;
-            } else {
-                cout << "This is not a valid answer" << endl;
+            switch(toupper(menuInput)) {
+                case 'A':
+                    totalPrice = totalPrice + myMenu.pizza->price;
+                    break;
+                case 'B':
+                    totalPrice = totalPrice + myMenu.fries->price;
+                    break;
+                case 'C':
+                    totalPrice = totalPrice + myMenu.burger->price;
+                    break;
+                case 'D':
+                    totalPrice = totalPrice + myMenu.pasta->price;
+                    break;
+                case 'E':
+                    totalPrice = totalPrice + myMenu.salad->price;
+                    break;
+                case 'F':
+                    totalPrice = totalPrice + myMenu.ramen->price;
+                    break;
+                default:
+                    std::cout << "This is not a valid answer! " << endl;
             };
-            
-            end: NULL;
+
+            invalid = true;
+            while(invalid) {
+                std::cout << "Your total to pay is $" 
+                    << totalPrice 
+                    << endl
+                    << "Would you like to add another item? Y/N :";
+
+                std::cin >> addItem; 
+
+                if (addItem == ('Y' | 'y')) {
+                    invalid = false;
+                    goto end;
+                } else if (addItem == ('N' | 'n')) {
+                    invalid = false;
+                    isAddingItems = false;
+                } else {
+                    std::cout << "This is not a valid answer" << endl;
+                };
+                
+                end: NULL;
+            };
+
         };
 
-    };
-
-    std::cout << "Thanks for your order!" 
-        << endl 
-        <<"your total to pay is $" 
-        << totalPrice 
-        << endl;
-       
-
-        bool applyDiscount = false;
-        string discountCode;
-
-        cout << "Would you like to apply a discount code? Y/N : ";
-        char applyDiscountInput;
-        cin >> applyDiscountInput;
-
-        if (toupper(applyDiscountInput) == 'Y'){
-            applyDiscount = true;
-
-            cout << "Enter discount code: ";
-             cin >> discountCode;      
-             }
-
-             // Check if the discount code is vaild
-             if (applyDiscount && (discountCode == "STAFF" || discountCode == "STUDENT")) {
-                //Apply the appropriate discount
-                if (discountCode == "STAFF") {
-                    totalPrice *= (1.0 - STAFF);
-                } else if (discountCode == "STUDENT"); {
-                    totalPrice *= (1.0 - STUDENT);
-                }
-               
-                // display the new total 
-                cout << "Discount applied, thanks! Your new total is $" << totalPrice << ", and you saved $ !" << endl;
-             } else if (applyDiscount) { 
-                // the discount code is invalid
-                cout << "Invalid discount code" << endl;
-            
-             } else {
-                // no discount code was applied
-                cout << "No discount code applied, your total is $ " << totalPrice << endl;
-             }
+        std::cout << "Thanks for your order!" 
+            << endl 
+            <<"your total to pay is $" 
+            << totalPrice 
+            << endl;
         
+
+            bool applyDiscount = false;
+            string discountCode;
+            const double STAFF = 0.10;
+            const double STUDENT = 0.05;
+
+            std::cout << "Would you like to apply a discount code? Y/N : ";
+            char applyDiscountInput;
+            std::cin >> applyDiscountInput;
+
+            if (toupper(applyDiscountInput) == 'Y'){
+                applyDiscount = true;
+
+                std::cout << "Enter discount code: ";
+                std::cin >> discountCode;      
+                }
+
+                // Check if the discount code is vaild
+                if (applyDiscount && (discountCode == "STAFF" || discountCode == "STUDENT")) {
+                    //Apply the appropriate discount
+                    if (discountCode == "STAFF") {
+                        totalPrice *= (1.0 - STAFF);
+                    } else if (discountCode == "STUDENT"); {
+                        totalPrice *= (1.0 - STUDENT);
+                    }
+                
+                    // display the new total 
+                    std::cout << "Discount applied, thanks! Your new total is $" << totalPrice << ", and you saved $ !" << endl;
+                } else if (applyDiscount) { 
+                    // the discount code is invalid
+                    std::cout << "Invalid discount code" << endl;
+                
+                } else {
+                    // no discount code was applied
+                    std::cout << "No discount code applied, your total is $ " << totalPrice << endl;
+                }
 
     return 0;
 }
