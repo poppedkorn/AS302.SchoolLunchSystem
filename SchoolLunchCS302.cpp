@@ -70,8 +70,15 @@ void login() {
     string line;
     string inputUsername = "username";
     string inputPassword = "password";
+    int loginFailCount;
     bool validUsername = false;
     waitForUsername:
+        if (loginFailCount == 3) {
+        cout << "you have entered the username/password wrong too many times, the programme is now quitting..."
+            << endl
+            << "goodbye!";
+            exit(0);
+    };
     // Read from the text file
     ifstream dataStream("users.txt");
 
@@ -93,6 +100,7 @@ void login() {
                     return;
                 } else {
                     cout << "Wrong password" << endl;
+                    loginFailCount++;
                     goto waitForPassword;
                 };
             };
@@ -105,6 +113,7 @@ void login() {
         };
     };
     cout << "Username does not exist" << endl;
+    loginFailCount++;
     goto waitForUsername;
  
     dataStream.close();
@@ -282,7 +291,11 @@ int main() {
                     };
                 
                     // display the new total 
-                    std::cout << "Discount applied, thanks! Your new total is $" << totalPrice << ", and you saved $ !" << endl;
+                    std::cout << "Discount applied, thanks! Your new total is $" 
+                            << totalPrice 
+                            << ", and you saved $ !" 
+                            << discountPrice - totalPrice
+                            << endl;
                 } else if (applyDiscount) { 
                     // the discount code is invalid
                     std::cout << "Invalid discount code" << endl;
@@ -290,20 +303,30 @@ int main() {
                 } else {
                     // no discount code was applied
                     std::cout << "No discount code applied, your total is $ " << totalPrice << endl;
+                };
                 // payment options 
                 cout << "Please select your payment method:" << endl
                 << "1. Cash" << endl
                 << "2. Debit Card" << endl
                 << "3. On Account" << endl
                 << "Enter your choice: " ;
-                };
+                
                 int paymentMethod;
                 cin >> paymentMethod;
 
                 switch (paymentMethod) {
                     case 1:
-                    cout << "Please Pay $" << discountPrice << "  in cash." << endl;
-                    break;
+                        cout << "Please Pay $" << discountPrice << "  in cash." << endl;
+                        break;
+                    case 2:
+                        cout << "Please Pay $" << discountPrice << "  Debit Card." << endl;
+                        break;
+                    case 3:
+                        cout << "Please Pay $" << discountPrice << "  On Account." << endl;
+                        break;
+                    default:
+                        cout << "that choice is invalid!";
+                        return 0;
                 };
 
     return 0;
