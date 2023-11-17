@@ -1,7 +1,6 @@
 #include <iostream>
 #include <math.h>
 #include <string.h>
-#include <array>
 #include <fstream>
 #include <cstring>
 #include <string>
@@ -73,6 +72,7 @@ void login() {
     int loginFailCount = 0;
     bool validUsername = false;
     waitForUsername:
+    // after 3 attempts the programme will quit
     if (loginFailCount == 3) {
         cout << "you have entered the username/password wrong too many times, the programme is now quitting..."
             << endl
@@ -147,6 +147,7 @@ int main() {
         << "to quit the programme press Q"
         << endl
         << "your choice: ";
+    mainLogStart:
     cin >> mainMenuInput;
 
     switch(toupper(mainMenuInput)) {
@@ -162,11 +163,15 @@ int main() {
         case 'N':
             // newUser();
             break;
-    }
-    // login();
+        default :
+            cout << "this is not a valid answer" 
+                << endl
+                << "your choice: ";
+        goto mainLogStart;
+    };
 
         while(isAddingItems) {
-            std::cout << "Enter the Item letter to order\n" 
+            cout << "Enter the Item letter to order\n" 
             << "A.) " << myMenu.pizza->food << endl
             << "B.) " << myMenu.fries->food << endl
             << "C.) " << myMenu.burger->food << endl
@@ -175,7 +180,7 @@ int main() {
             << "F.) " << myMenu.ramen->food << endl
             << "your choice : ";
 
-            std::cin >> orderMenuInput;
+            cin >> orderMenuInput;
 
             switch(toupper(orderMenuInput)) {
                 case 'A':
@@ -202,12 +207,12 @@ int main() {
 
             invalid = true;
             while(invalid) {
-                std::cout << "Your total to pay is $" 
+                cout << "Your total to pay is $" 
                     << totalPrice 
                     << endl
                     << "Would you like to add another item? Y/N :";
 
-                std::cin >> addItem; 
+                cin >> addItem; 
 
                 if (addItem == ('Y' | 'y')) {
                     invalid = false;
@@ -216,7 +221,7 @@ int main() {
                     invalid = false;
                     isAddingItems = false;
                 } else {
-                    std::cout << "This is not a valid answer" << endl;
+                    cout << "This is not a valid answer" << endl;
                 };
                 
                 end: NULL;
@@ -224,7 +229,7 @@ int main() {
 
         };
 
-        std::cout << "Thanks for your order!" 
+        cout << "Thanks for your order!" 
             << endl 
             <<"your total to pay is $" 
             << totalPrice 
@@ -236,41 +241,42 @@ int main() {
             const double STUDENT = 0.95;
             double discountPrice = 0;
 
-            std::cout << "Would you like to apply a discount code? Y/N : ";
+            cout << "Would you like to apply a discount code? Y/N : ";
             char applyDiscountInput;
-            std::cin >> applyDiscountInput;
+            cin >> applyDiscountInput;
 
-            if (toupper(applyDiscountInput) == 'Y'){
+            if (toupper(applyDiscountInput) == 'Y') {
                 applyDiscount = true;
 
-                std::cout << "Enter discount code: ";
-                std::cin >> discountCode;     
-                }
+                cout << "Enter discount code: ";
+                cin >> discountCode;     
+                };
 
                 // Check if the discount code is vaild
                 if (applyDiscount && (discountCode == "STAFF" || discountCode == "STUDENT")) {
                     //Apply the appropriate discount
                     if (discountCode == "STAFF") {
                         discountPrice = totalPrice * STAFF;
-                    } if (discountCode == "STUDENT"); {
+                    } 
+                    if (discountCode == "STUDENT") {
                         discountPrice = totalPrice * STUDENT;
-                    }
+                    };
 
                     // display the new total 
                     double priceDifference = totalPrice - discountPrice;
-                    std::cout << "Discount applied, thanks! Your new total is $" 
+                    cout << "Discount applied, thanks! Your new total is $" 
                             << discountPrice 
                             << ", and you saved $" 
                             << priceDifference  
                             << endl;
                 } else if (applyDiscount) { 
                     // the discount code is invalid
-                    std::cout << "Invalid discount code" << endl;
+                    cout << "Invalid discount code" << endl;
                 
                 } else {
                     // no discount code was applied
-                    std::cout << "No discount code applied, your total is $" << totalPrice << endl;
-                }
+                    cout << "No discount code applied, your total is $" << totalPrice << endl;
+                };
 
     return 0;
-}
+};

@@ -1,15 +1,19 @@
-#include<iostream>
-#include<fstream>
+#include <iostream>
+#include <fstream>
+#include <string.h>
 using namespace std;
-int main() {
 
-    ofstream file_;
-    file_.open("test.txt");
-    if(file_.is_open()) {
+int main() {
+  fstream file_;
+
+  file_.open("test.txt", ios::out);
+
+  if(file_.is_open()) {
     file_ << "john deer";
-    }
-    // file_.close();
-    // cin.get();
-    
-      return 0;
+  };
+
+  file_.close();
+  cin.get();
+  
+  return 0;
 }
