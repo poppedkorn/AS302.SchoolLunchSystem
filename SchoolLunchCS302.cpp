@@ -222,6 +222,20 @@ int main() {
                 } else {
                     // no discount code was applied
                     std::cout << "No discount code applied, your total is $ " << totalPrice << endl;
+                // payment options 
+                cout << "Please select your payment method:" << endl
+                << "1. Cash" << endl
+                << "2. Debit Card" << endl
+                << "3. On Account" << endl
+                << "Enter your choice: " ;
+
+                int paymentMethod;
+                cin >> paymentMethod;
+
+                switch (paymentMethod) {
+                    case 1:
+                    cout << "Please Pay $" << discountPrice << "  in cash." << endl;
+                    break;
                 }
 
     return 0;
