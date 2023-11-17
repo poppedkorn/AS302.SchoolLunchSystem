@@ -125,13 +125,37 @@ void login() {
 };
 
 void newUser() {
+    std::ofstream newUserOut;
+    string newUserInput, newUserPassword;
+
+    cout << "Please input your new username: ";
+    cin >> newUserInput;
+
+    newUserOut.open("users.txt", std::fstream::app);
+
+    if (newUserOut.is_open()) {
+    newUserOut << "\n" << newUserInput << " ";
+
+    cout << "Please input your new password: ";
+    cin >> newUserPassword;
+    newUserOut << newUserPassword;
+
+    newUserOut.close();
+
+    cout << "Successfully created new user" << endl;
+    } else {
+        cout << "unable to open file, try turning off your antivirus!";
+        exit(0);
+    };
+
 
 };
 
 int main() {
     menu myMenu = menu(menuItem(pizza), menuItem(fries), menuItem(burger), menuItem(pasta), menuItem(salad), menuItem(ramen));
     char orderMenuInput;
-    char mainMenuInput;
+    char* test;
+    string mainMenuInput;
     double totalPrice = 0;
     bool invalid = true;
     bool isAddingItems = true;
@@ -148,9 +172,14 @@ int main() {
         << endl
         << "your choice: ";
     mainLogStart:
-    cin >> mainMenuInput;
 
-    switch(toupper(mainMenuInput)) {
+    // reads a whole line
+    if (!getline(cin, mainMenuInput)) {
+        cout << "Error or end-of-file\n";
+    };
+
+    test = mainMenuInput.data();
+    switch(toupper(*test)) {
         case 'L': 
             login();
             break;
@@ -161,13 +190,15 @@ int main() {
 
                 return -1;
         case 'N':
-            // newUser();
+            newUser();
             break;
         default :
             cout << "this is not a valid answer" 
                 << endl
                 << "your choice: ";
-        goto mainLogStart;
+
+            goto mainLogStart;
+            break;
     };
 
         while(isAddingItems) {
