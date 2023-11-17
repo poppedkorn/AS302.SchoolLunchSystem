@@ -108,7 +108,7 @@ void login() {
     goto waitForUsername;
  
     dataStream.close();
-    cout << "wtf bro?";
+    cout << "error 404 not found";
     return;
 };
 
@@ -199,9 +199,9 @@ int main() {
             << "F.) " << myMenu.ramen->food << endl
             << "your choice : ";
 
-            std::cin >> menuInput;
+            std::cin >> orderMenuInput;
 
-            switch(toupper(menuInput)) {
+            switch(toupper(orderMenuInput)) {
                 case 'A':
                     totalPrice = totalPrice + myMenu.pizza->price;
                     break;
@@ -257,8 +257,9 @@ int main() {
 
             bool applyDiscount = false;
             string discountCode;
-            const double STAFF = 0.10;
-            const double STUDENT = 0.05;
+            double discountPrice;
+            const double STAFF = 0.9;
+            const double STUDENT = 0.95;
 
             std::cout << "Would you like to apply a discount code? Y/N : ";
             char applyDiscountInput;
@@ -269,16 +270,16 @@ int main() {
 
                 std::cout << "Enter discount code: ";
                 std::cin >> discountCode;      
-                }
+                };
 
                 // Check if the discount code is vaild
                 if (applyDiscount && (discountCode == "STAFF" || discountCode == "STUDENT")) {
                     //Apply the appropriate discount
                     if (discountCode == "STAFF") {
-                        totalPrice *= (1.0 - STAFF);
+                        discountPrice = totalPrice * STAFF;
                     } else if (discountCode == "STUDENT"); {
-                        totalPrice *= (1.0 - STUDENT);
-                    }
+                        discountPrice = totalPrice * STUDENT;
+                    };
                 
                     // display the new total 
                     std::cout << "Discount applied, thanks! Your new total is $" << totalPrice << ", and you saved $ !" << endl;
@@ -295,7 +296,7 @@ int main() {
                 << "2. Debit Card" << endl
                 << "3. On Account" << endl
                 << "Enter your choice: " ;
-
+                };
                 int paymentMethod;
                 cin >> paymentMethod;
 
@@ -303,7 +304,7 @@ int main() {
                     case 1:
                     cout << "Please Pay $" << discountPrice << "  in cash." << endl;
                     break;
-                }
+                };
 
     return 0;
-}
+};
