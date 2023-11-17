@@ -292,9 +292,10 @@ int main() {
                 
                     // display the new total 
                     std::cout << "Discount applied, thanks! Your new total is $" 
-                            << totalPrice 
-                            << ", and you saved $ !" 
-                            << discountPrice - totalPrice
+                            << discountPrice 
+                            << ", and you saved $" 
+                            << totalPrice - discountPrice
+                            << "!"
                             << endl;
                 } else if (applyDiscount) { 
                     // the discount code is invalid
