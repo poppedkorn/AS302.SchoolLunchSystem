@@ -65,8 +65,7 @@ class menu {
 };
 
 void login() {
-
-    // Create a text string, which is used to output the text file
+    // text string, which is used to output the text file
     string line;
     string inputUsername = "username";
     string inputPassword = "password";
@@ -77,16 +76,17 @@ void login() {
 
     cout << "Username: ";
     cin >> inputUsername;
-    // Use a while loop together with the getline() function to read the file line by line
+    // while loop used together with the getline() function to read the file line by line
     while (getline(dataStream, line)) {
         char* lineChunk = strtok(line.data(), " ");
         validUsername = false;
         while (lineChunk != NULL) {
-
+            // checking validity of username to go into the password input
             if(validUsername) {
                 waitForPassword:
                 cout << "Password: ";
                 cin >> inputPassword;
+                // the strtok value and input value of the password check if they match
                 if(lineChunk == inputPassword) {
                     cout << "Sign in successful " << endl;
                     dataStream.close();
@@ -104,23 +104,55 @@ void login() {
             };
         };
     };
+    // failsafe handling for uncommon cases of breaking out of the while loop
     cout << "Username does not exist" << endl;
-    goto waitForUsername;
+    goto waitForUsername; // goto is a cheat way of dealing with a broken loop
  
     dataStream.close();
-    cout << "wtf bro?";
+    cout << "error 404. file not found";
     return;
+};
+
+void newUser() {
+
 };
 
 int main() {
     menu myMenu = menu(menuItem(pizza), menuItem(fries), menuItem(burger), menuItem(pasta), menuItem(salad), menuItem(ramen));
-    char menuInput;
+    char orderMenuInput;
+    char mainMenuInput;
     double totalPrice = 0;
     bool invalid = true;
     bool isAddingItems = true;
     char addItem;
 
-    login();
+
+    cout << "hello, welcome to the school lunch ordering system!"
+        << endl
+        << "to login to a previous user press L"
+        << endl
+        << "to create a new user press N"
+        << endl
+        << "to quit the programme press Q"
+        << endl
+        << "your choice: ";
+    cin >> mainMenuInput;
+
+    switch(toupper(mainMenuInput)) {
+        case 'L': 
+            login();
+            break;
+        case 'Q':
+            cout << "you are now quitting the programme..."
+                << endl
+                << "goodbye";
+
+                return -1;
+        case 'N':
+            // newUser();
+            break;
+    }
+    // login();
 
         while(isAddingItems) {
             std::cout << "Enter the Item letter to order\n" 
@@ -132,9 +164,9 @@ int main() {
             << "F.) " << myMenu.ramen->food << endl
             << "your choice : ";
 
-            std::cin >> menuInput;
+            std::cin >> orderMenuInput;
 
-            switch(toupper(menuInput)) {
+            switch(toupper(orderMenuInput)) {
                 case 'A':
                     totalPrice = totalPrice + myMenu.pizza->price;
                     break;
@@ -187,11 +219,11 @@ int main() {
             << totalPrice 
             << endl;
         
-
             bool applyDiscount = false;
             string discountCode;
-            const double STAFF = 0.10;
-            const double STUDENT = 0.05;
+            const double STAFF = 0.9;
+            const double STUDENT = 0.95;
+            double discountPrice = 0;
 
             std::cout << "Would you like to apply a discount code? Y/N : ";
             char applyDiscountInput;
@@ -201,27 +233,32 @@ int main() {
                 applyDiscount = true;
 
                 std::cout << "Enter discount code: ";
-                std::cin >> discountCode;      
+                std::cin >> discountCode;     
                 }
 
                 // Check if the discount code is vaild
                 if (applyDiscount && (discountCode == "STAFF" || discountCode == "STUDENT")) {
                     //Apply the appropriate discount
                     if (discountCode == "STAFF") {
-                        totalPrice *= (1.0 - STAFF);
-                    } else if (discountCode == "STUDENT"); {
-                        totalPrice *= (1.0 - STUDENT);
+                        discountPrice = totalPrice * STAFF;
+                    } if (discountCode == "STUDENT"); {
+                        discountPrice = totalPrice * STUDENT;
                     }
-                
+
                     // display the new total 
-                    std::cout << "Discount applied, thanks! Your new total is $" << totalPrice << ", and you saved $ !" << endl;
+                    double priceDifference = totalPrice - discountPrice;
+                    std::cout << "Discount applied, thanks! Your new total is $" 
+                            << discountPrice 
+                            << ", and you saved $" 
+                            << priceDifference  
+                            << endl;
                 } else if (applyDiscount) { 
                     // the discount code is invalid
                     std::cout << "Invalid discount code" << endl;
                 
                 } else {
                     // no discount code was applied
-                    std::cout << "No discount code applied, your total is $ " << totalPrice << endl;
+                    std::cout << "No discount code applied, your total is $" << totalPrice << endl;
                 }
 
     return 0;
