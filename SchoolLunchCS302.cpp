@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cstring>
 #include <string>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -69,8 +70,16 @@ void login() {
     string line;
     string inputUsername = "username";
     string inputPassword = "password";
+    int loginFailCount = 0;
     bool validUsername = false;
     waitForUsername:
+    if (loginFailCount == 3) {
+        cout << "you have entered the username/password wrong too many times, the programme is now quitting..."
+            << endl
+            << "goodbye!";
+
+            exit(0);
+    };
     // Read from the text file
     ifstream dataStream("users.txt");
 
@@ -93,6 +102,7 @@ void login() {
                     return;
                 } else {
                     cout << "Wrong password" << endl;
+                    loginFailCount++;
                     goto waitForPassword;
                 };
             };
@@ -106,6 +116,7 @@ void login() {
     };
     // failsafe handling for uncommon cases of breaking out of the while loop
     cout << "Username does not exist" << endl;
+    loginFailCount++;
     goto waitForUsername; // goto is a cheat way of dealing with a broken loop
  
     dataStream.close();
