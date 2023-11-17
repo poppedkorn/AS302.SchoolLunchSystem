@@ -70,7 +70,7 @@ void login() {
     string line;
     string inputUsername = "username";
     string inputPassword = "password";
-    int loginFailCount;
+    int loginFailCount = 0;
     bool validUsername = false;
     waitForUsername:
         if (loginFailCount == 3) {
@@ -86,7 +86,7 @@ void login() {
     cin >> inputUsername;
     // Use a while loop together with the getline() function to read the file line by line
     while (getline(dataStream, line)) {
-        char* lineChunk = strtok(line.data(), " ");
+        char* lineChunk = strtok(line.data(), " "); // strtok is a delimiter it ignores spaces or " " in .txt file when reading inline.
         validUsername = false;
         while (lineChunk != NULL) {
 
@@ -266,7 +266,7 @@ int main() {
 
             bool applyDiscount = false;
             string discountCode;
-            double discountPrice;
+            double discountPrice = 0;
             const double STAFF = 0.9;
             const double STUDENT = 0.95;
 
