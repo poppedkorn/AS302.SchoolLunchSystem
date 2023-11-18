@@ -23,7 +23,7 @@ class menuItem {
                     break;
                 case fries:
                     food = "Fries";
-                    price = 3.50;
+                    price = 3.55;
                     break;
                 case burger:
                     food = "Chicken Burger";
@@ -31,11 +31,11 @@ class menuItem {
                     break;
                 case pasta:
                     food = "Alfredo Pasta";
-                    price = 6.50;
+                    price = 6.55;
                     break;
                 case salad:
                     food = "Caesar Salad";
-                    price = 5.50;
+                    price = 5.55;
                     break;
                 case ramen:
                     food = "Miso Ramen";
@@ -65,7 +65,6 @@ class menu {
 };
 
 void login() {
-
     // Create a text string, which is used to output the text file
     string line;
     string inputUsername = "username";
@@ -144,14 +143,12 @@ void newUser() {
         cout << "unable to open file, try turning off your antivirus!";
         exit(0);
     };
-
-
 };
 
 int main() {
     menu myMenu = menu(menuItem(pizza), menuItem(fries), menuItem(burger), menuItem(pasta), menuItem(salad), menuItem(ramen));
     char orderMenuInput;
-    char* test;
+    char* mainMenuConvert;
     string mainMenuInput;
     double totalPrice = 0;
     bool invalid = true;
@@ -175,8 +172,8 @@ int main() {
         cout << "Error or end-of-file\n";
     };
 
-    test = mainMenuInput.data();
-    switch(toupper(*test)) {
+    mainMenuConvert = mainMenuInput.data();
+    switch(toupper(*mainMenuConvert)) {
         case 'L': 
             login();
             break;
@@ -200,12 +197,12 @@ int main() {
 
         while(isAddingItems) {
             std::cout << "Enter the Item letter to order\n" 
-            << "A.) " << myMenu.pizza->food << endl
-            << "B.) " << myMenu.fries->food << endl
-            << "C.) " << myMenu.burger->food << endl
-            << "D.) " << myMenu.pasta->food << endl
-            << "E.) " << myMenu.salad->food << endl
-            << "F.) " << myMenu.ramen->food << endl
+            << "A.) " << myMenu.pizza->food << " $" << myMenu.pizza->price << endl
+            << "B.) " << myMenu.fries->food << " $" << myMenu.fries->price << endl
+            << "C.) " << myMenu.burger->food << " $" << myMenu.burger->price << endl
+            << "D.) " << myMenu.pasta->food << " $" << myMenu.pasta->price << endl
+            << "E.) " << myMenu.salad->food << " $" << myMenu.salad->price << endl
+            << "F.) " << myMenu.ramen->food << " $" << myMenu.ramen->price << endl
             << "your choice : ";
 
             std::cin >> orderMenuInput;
@@ -312,7 +309,7 @@ int main() {
                 << "3. On Account" << endl
                 << "Enter your choice: " ;
                 
-                int paymentMethod;
+                int paymentMethod = 0;
                 cin >> paymentMethod;
 
                 switch (paymentMethod) {
