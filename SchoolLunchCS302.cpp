@@ -1,20 +1,20 @@
-#include <iostream>
-#include <math.h>
-#include <string.h>
-#include <array>
-#include <fstream>
-#include <cstring>
-#include <string>
+#include <iostream> // standard in most c++ programmes
+#include <math.h> // to use math in the programme
+#include <string.h> // to manipulate strings
+#include <fstream> // read/write to a .txt file
+#include <cstring> // another string manipulator
+#include <string> // c++ doesn't like strings so it needs a seperate include
+#include <iomanip> // setprecision
 
-using namespace std;
+using namespace std; // ignores using the std library call e.g std::
 
-enum menuItemID {pizza, fries, burger, pasta, salad, ramen};
+enum menuItemID {pizza, fries, burger, pasta, salad, ramen}; // enum to identify the objects
 
 class menuItem {
     public:
         string food;
         double price;
-
+    // menu switch case to iderate through everything individually and intialise each objects string and int
         menuItem(menuItemID id) {
             switch(id) {   
                 case pizza:
@@ -46,7 +46,7 @@ class menuItem {
 };
 
 class menu {
-    public: 
+    public: // pointer class menu for easier handling and printing
         menuItem* pizza;
         menuItem* fries;
         menuItem* burger;
@@ -72,6 +72,7 @@ void login() {
     int loginFailCount = 0;
     bool validUsername = false;
     waitForUsername:
+        // if statement to count failed logins, after 3 attempts it will close the programme
         if (loginFailCount == 3) {
         cout << "you have entered the username/password wrong too many times, the programme is now quitting..."
             << endl
@@ -89,6 +90,7 @@ void login() {
         validUsername = false;
         while (lineChunk != NULL) {
 
+            // checking if username is valid to proceed to password input
             if(validUsername) {
                 waitForPassword:
                 cout << "Password: ";
@@ -103,7 +105,7 @@ void login() {
                     goto waitForPassword;
                 };
             };
-            
+            // validates username
             string s(lineChunk);
             lineChunk = strtok(NULL, " ");
             if(s == inputUsername) {
@@ -114,7 +116,7 @@ void login() {
     cout << "Username does not exist" << endl;
     loginFailCount++;
     goto waitForUsername;
- 
+    // handling case if file closes unexpectedly
     dataStream.close();
     cout << "error 404 not found";
     return;
@@ -126,12 +128,12 @@ void newUser() {
 
     cout << "Please input your new username: ";
     cin >> newUserInput;
-
+    // open .txt file to write on
     newUserOut.open("users.txt", std::fstream::app);
 
     if (newUserOut.is_open()) {
     newUserOut << "\n" << newUserInput << " ";
-
+    // input nesting for password
     cout << "Please input your new password: ";
     cin >> newUserPassword;
     newUserOut << newUserPassword;
@@ -140,7 +142,7 @@ void newUser() {
 
     cout << "Successfully created new user" << endl;
     } else {
-        cout << "unable to open file, try turning off your antivirus!";
+        cout << "unable to open file, try turning off your antivirus!"; // if antivirus is on it will not permit you to write on a local .txt file
         exit(0);
     };
 };
@@ -171,7 +173,7 @@ int main() {
     if (!getline(cin, mainMenuInput)) {
         cout << "Error or end-of-file\n";
     };
-
+    // converts string to char for switch case
     mainMenuConvert = mainMenuInput.data();
     switch(toupper(*mainMenuConvert)) {
         case 'L': 
@@ -191,7 +193,7 @@ int main() {
                 << endl
                 << "your choice: ";
 
-            goto mainLogStart;
+            goto mainLogStart; // c++ is a linear language so this helps it not be
             break;
     };
 
@@ -206,7 +208,7 @@ int main() {
             << "your choice : ";
 
             std::cin >> orderMenuInput;
-
+            // switch case for menu options
             switch(toupper(orderMenuInput)) {
                 case 'A':
                     totalPrice = totalPrice + myMenu.pizza->price;
@@ -229,7 +231,7 @@ int main() {
                 default:
                     std::cout << "This is not a valid answer! " << endl;
             };
-
+            // validity for input option
             invalid = true;
             while(invalid) {
                 std::cout << "Your total to pay is $" 
@@ -283,13 +285,15 @@ int main() {
                     //Apply the appropriate discount
                     if (discountCode == "STAFF") {
                         discountPrice = totalPrice * STAFF;
-                    } else if (discountCode == "STUDENT"); {
+                    } else if (discountCode == "STUDENT") {
                         discountPrice = totalPrice * STUDENT;
                     };
                 
                     // display the new total 
                     std::cout << "Discount applied, thanks! Your new total is $" 
-                            << discountPrice 
+                            << fixed
+                            << setprecision(2)
+                            << discountPrice
                             << ", and you saved $" 
                             << totalPrice - discountPrice
                             << "!"
@@ -314,13 +318,13 @@ int main() {
 
                 switch (paymentMethod) {
                     case 1:
-                        cout << "Please Pay $" << discountPrice << "  in cash." << endl;
+                        cout << "Please Pay $" << fixed << setprecision(2) << discountPrice << "  in cash." << endl;
                         break;
                     case 2:
-                        cout << "Please Pay $" << discountPrice << "  Debit Card." << endl;
+                        cout << "Please Pay $" << fixed << setprecision(2) << discountPrice << "  Debit Card." << endl;
                         break;
                     case 3:
-                        cout << "Please Pay $" << discountPrice << "  On Account." << endl;
+                        cout << "Please Pay $" << fixed << setprecision(2) << discountPrice << "  On Account." << endl;
                         break;
                     default:
                         cout << "that choice is invalid!";
