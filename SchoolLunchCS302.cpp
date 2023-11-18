@@ -251,7 +251,7 @@ int main() {
                     std::cout << "This is not a valid answer" << endl;
                 };
                 
-                end: NULL;
+                end:;
             };
 
         };
@@ -318,7 +318,7 @@ int main() {
 
                 switch (paymentMethod) {
                     case 1:
-                        cout << "Please Pay $" << fixed << setprecision(2) << discountPrice << "  in cash." << endl;
+                        cout << "Please Pay $" << fixed << setprecision(1) << discountPrice << "0  in cash." << endl;
                         break;
                     case 2:
                         cout << "Please Pay $" << fixed << setprecision(2) << discountPrice << "  Debit Card." << endl;
