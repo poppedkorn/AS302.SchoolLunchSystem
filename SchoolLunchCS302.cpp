@@ -251,7 +251,7 @@ int main() {
                     std::cout << "This is not a valid answer" << endl;
                 };
                 
-                end: NULL;
+                end: "/n";
             };
 
         };
